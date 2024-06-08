@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     public  void consulta(String filtro){
 
         Call<List<Libro>> call = servicio.listaPorTitulo(filtro);
@@ -116,4 +117,3 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 }
-

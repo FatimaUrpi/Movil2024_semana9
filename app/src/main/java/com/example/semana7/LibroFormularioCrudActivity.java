@@ -15,6 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.semana7.entity.Libro;
 import com.example.semana7.service.ServiceCategoriaLibro;
 import com.example.semana7.service.ServiceLibro;
 import com.example.semana7.service.ServicePais;
@@ -22,32 +23,22 @@ import com.example.semana7.service.ServicePais;
 import java.util.ArrayList;
 
 public class LibroFormularioCrudActivity extends AppCompatActivity {
-Button btnEnviar, btnRegresar;
-/*Variable global*/
-String metodo;
-    //Pais
     Spinner spnPais;
     ArrayAdapter<String> adaptadorPais;
     ArrayList<String> paises = new ArrayList<>();
-
+    ServiceLibro serviceLibro;
+    ServicePais servicePais;
+    ServiceCategoriaLibro serviceCategoriaLibro;
     //Categoria
     Spinner spnCategoria;
     ArrayAdapter<String> adaptadorCategoria;
     ArrayList<String> categorias = new ArrayList<>();
-
-    //Servicio
-    ServiceLibro serviceLibro;
-    ServicePais servicePais;
-    ServiceCategoriaLibro serviceCategoriaLibro;
-
+    TextView idTitlePage;
     EditText txtTitulo, txtAnio, txtSerie;
-TextView idTitelPage;
+    Button btnEnviar, btnRegresar;
+    String metodo;
 
-
-
-
-
-
+    Libro objActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,30 +51,40 @@ TextView idTitelPage;
             return insets;
         });
 
-         metodo =(String)getIntent().getExtras().get("var_metodo");
-        idTitelPage=findViewById(R.id.idTitlePage);
+        txtTitulo = findViewById(R.id.txtRegLibTitulo);
+        txtAnio = findViewById(R.id.txtRegLibAnio);
+        txtSerie = findViewById(R.id.txtRegLibSerie);
 
-         btnEnviar =findViewById(R.id.btnRegLibEnviar);
-        btnRegresar=findViewById(R.id.btnRegLibRegresar);
+        metodo = (String)getIntent().getExtras().get("var_metodo");
+        idTitlePage = findViewById(R.id.idTitlePage);
 
-        if(metodo.equals(("REGISTRAR"))){
-            idTitelPage.setText(("Registrar Libro"));
+        btnEnviar = findViewById(R.id.btnRegLibEnviar);
+        btnRegresar = findViewById(R.id.btnRegLibRegresar);
+
+        if (metodo.equals("REGISTRAR")){
+            idTitlePage.setText("Registra libro");
             btnEnviar.setText("Registrar");
-
-        }else if(metodo.equals("ACTUALIZAR")){
-            idTitelPage.setText(("Actualizar Libro"));
+        }else if (metodo.equals("ACTUALIZAR")){
+            idTitlePage.setText("Actualizar libro");
             btnEnviar.setText("Actualizar");
+
+            objActual = (Libro) getIntent().getExtras().get("var_objeto");
+            txtTitulo.setText(objActual.getTitulo());
+            txtAnio.setText(String.valueOf(objActual.getAnio()));
+            txtSerie.setText(objActual.getSerie());
+
+
         }
+
 
 
         btnRegresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LibroFormularioCrudActivity.this,MainActivity.class);
+                Intent intent = new Intent(LibroFormularioCrudActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
-
 
     }
 }
